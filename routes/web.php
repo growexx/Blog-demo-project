@@ -20,4 +20,12 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix'=>'api'], function() use($router){
     $router->post('/register', 'AuthController@register');
     $router->post('/login', 'AuthController@login');
+    
+    $router->group(['middleware'=>'auth'], function() use($router){
+        $router->post('/logout', 'AuthController@logout');
+        $router->get('/posts', 'PostController@index');
+        $router->post('/store', 'PostController@store');
+        $router->post('/update/{id}', 'PostController@update');
+        $router->post('/delete/{id}', 'PostController@destroy');
+    });
 });
